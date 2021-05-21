@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 import RegisterForm from './userRegister';
 import AdminPage from './admin/adminpage';
 import AdminLogin from './admin/adminLogin';
+import AdminRegister from './admin/adminRegistration';
 
 
 export default function Header() {
@@ -24,6 +25,7 @@ export default function Header() {
                 <Route path="/register"><RegisterForm /></Route>
                 <Route path="/admin"><AdminPage /></Route>
                 <Route path="/adminlogin"><AdminLogin /> </Route>
+                <Route path="/adminregister"><AdminRegister /></Route>
             </Switch>
         </>
     );

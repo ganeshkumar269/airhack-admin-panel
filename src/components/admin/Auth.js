@@ -5,8 +5,7 @@ export function setAuth(tokentype, token) {
 
 
 export function getAuth(tokentype) {
-    return true;
-    if (sessionStorage.tokentype) {
+    if (sessionStorage[tokentype]) {
         return true;
     }
     return false;
@@ -14,8 +13,8 @@ export function getAuth(tokentype) {
 
 
 export function getAuthToken(tokentype) {
-    if (sessionStorage.tokentype) {
-        return sessionStorage.tokentype;
+    if (sessionStorage[tokentype]) {
+        return sessionStorage[tokentype];
     }
     return false;
 }

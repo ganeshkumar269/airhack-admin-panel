@@ -1,13 +1,15 @@
+import { Redirect } from "react-router-dom";
+import API from '../../lib/apis'
+import constants from '../../lib/constants.json'
+import * as yup from 'yup'
+import {Modal, Form, Button} from 'react-bootstrap'
+import {Formik} from 'formik'
 
 
-const adminRegisterUrl = "127.0.0.1:9000/api/v1/adminregister";
 
 export default function AdminRegister() {
     const regsiterSchema = yup.object().shape({
         email: yup.string().email()
-            .required('Required'),
-        username: yup.string()
-            .max(15, "Must be 15 characters or less")
             .required('Required'),
         password: yup.string()
             .min(8, 'Must be 8 charahcters or more')
@@ -24,9 +26,11 @@ export default function AdminRegister() {
                     validationSchema={regsiterSchema}
                     onSubmit={async (values) => {
                         try {
-                            const res = await axios.post(registerurl, values);
+                            const res = await API.post(constants.adminregister, values);
                             if (res.status === 200) {
                                 alert("User creation successfull")
+                                // push to the login page
+                                return <Redirect to="/adminlogin" />
                             } else {
                                 console.log("Failed the registration")
                             }
@@ -37,8 +41,7 @@ export default function AdminRegister() {
                     }
                     }
                     initialValues={{
-                        mail: '',
-                        username: '',
+                        email: '',
                         password: '',
                     }}
                 >
@@ -52,18 +55,19 @@ export default function AdminRegister() {
                         errors
                     }) => (
                         <Form noValidate onSubmit={handleSubmit}>
-                            <Form.Group controlId="validate2">
-                                <Form.Label>Username</Form.Label>
-                                <Form.Control type="text" name="username"
-                                    value={values.username}
+                            <Form.Group controlId="validate1">
+                                <Form.Label>Email</Form.Label>
+                                <Form.Control type="text" name="email"
+                                    value={values.email}
                                     onChange={handleChange}
-                                    placeholder="Username"
-                                    isValid={touched.username && !errors.username}
+                                    placeholder="Mail"
+                                    isValid={touched.mail && !errors.mail}
                                 />
                                 <Form.Control.Feedback type="invalid">
-                                    {errors.username}
+                                    {errors.mail}
                                 </Form.Control.Feedback>
                             </Form.Group>
+
                             <Form.Group controlId="validate3">
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control type="text" name="password"
@@ -76,19 +80,7 @@ export default function AdminRegister() {
                                     {errors.password}
                                 </Form.Control.Feedback>
                             </Form.Group>
-                            <Form.Group controlId="validate1">
-                                <Form.Label>Email</Form.Label>
-                                <Form.Control type="text" name="mail"
-                                    value={values.mail}
-                                    onChange={handleChange}
-                                    placeholder="Mail"
-                                    isValid={touched.mail && !errors.mail}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.mail}
-                                </Form.Control.Feedback>
-                            </Form.Group>
-                            <Button type="submit">Submit</Button>
+                            <Button type="submit">Register</Button>
                         </Form>
                     )}
                 </Formik>

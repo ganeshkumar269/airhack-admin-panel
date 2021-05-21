@@ -1,4 +1,8 @@
 {
-    "baseserver": "https://airbus-hackathon-backend.ganeshkumar269.repl.co/",
-    "adminregister": "/api/v1/admin/register"
+    "baseserver": "https://airbus-hackathon-backend.ganeshkumar269.repl.co",
+    "adminregister": "/api/v1/admin/register",
+    "adminlogin": "/api/v1/admin/login",
+    "adminaddkeywords" : "/api/v1/admin/keywords",
+    "admingetkeywords":"/api/v1/admin/keywords",
+    "crawl":"/api/v1/crawl"
 }

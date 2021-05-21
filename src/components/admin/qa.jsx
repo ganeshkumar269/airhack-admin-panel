@@ -3,8 +3,11 @@ import { Formik } from "formik";
 import { getAuthToken } from "./Auth";
 import { Form, Button, Card, Accordion } from 'react-bootstrap';
 import { useEffect, useState } from "react";
+import API from '../../lib/apis'
+import constants from '../../lib/constants.json'
 
-const questionUrl = "192.168.1.1:9000/api/v1/question"
+const questionUrl = '127.0.0.1:9000'
+
 
 export default function QaPage() {
     // This page is to give the form to create QA and display the last few QA 

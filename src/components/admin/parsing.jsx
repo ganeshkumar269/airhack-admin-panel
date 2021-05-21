@@ -1,27 +1,36 @@
-import axios from "axios";
 import { Formik } from "formik"
 import { useState } from "react"
 import { Form, Button } from 'react-bootstrap'
+import API from '../../lib/apis'
+import constants from '../../lib/constants.json'
+import { getAuthToken } from "./Auth";
 
-const urlApi = "192.168.0.1:9000/api/v1/domain"
 
 export default function Parsing() {
 
     const [returnUrls, setReturnUrls] = useState("");
 
-    var linkElem = ""
-    if (returnUrls !== "") {
-        linkElem = returnUrls.map((item) => 
-            <li>{item}</li>
-        )
-    }
+    // var linkElem = ""
+    // if (returnUrls !== "") {
+    //     linkElem = returnUrls.map((item) => 
+    //         <li>{item}</li>
+    //     )
+    // }
 
     return (
         <>
         <Formik
             onSubmit={async (values) => {
                 try {
-                    const res = await axios.put(urlApi, values)
+                    const token = getAuthToken('admin');
+                    const res = await API.get(constants.admingetkeywords, {
+                        params: {
+                            website_id: values.callurl,
+                        },
+                        headers: {
+                            Authorization: `Bearer: ${token}`
+                        }
+                    })
                     if (res.status === 200) {
                         setReturnUrls(res.data);
                     }
@@ -30,7 +39,7 @@ export default function Parsing() {
                 }
             }}
             initialValues={{
-                callUrl: ""
+                callurl: ""
             }}
         >
             {
@@ -42,8 +51,8 @@ export default function Parsing() {
                     <Form onSubmit={handleSubmit}>
                         <Form.Group controlId="validate1">
                             <Form.Label>Enter your domain Name</Form.Label>
-                            <Form.Control type="text" name="domainname"
-                                value={values.domainname}
+                            <Form.Control type="text" name="callurl"
+                                value={values.callurl} onChange={handleChange}
                             />
                         </Form.Group>
                         <Button type="submit">Generate Domain links</Button>
@@ -51,7 +60,7 @@ export default function Parsing() {
                 )
             }
         </Formik>
-        {linkElem}
+        {returnUrls}
         </>
     )
 }

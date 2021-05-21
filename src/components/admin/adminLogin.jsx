@@ -1,10 +1,11 @@
 import * as yup from 'yup'
 import { Formik } from 'formik';
-import axios from 'axios';
 import { Form, Button, Modal, ButtonGroup } from 'react-bootstrap';
 import { setAuth } from './Auth';
 import { Redirect } from 'react-router-dom';
 import API from '../../lib/apis'
+import constants from '../../lib/constants.json'
+import { useState } from 'react';
 // import { useHistory } from 'react-router-dom';
 
 // TODO : create the session storage authentication here
@@ -15,9 +16,10 @@ import API from '../../lib/apis'
 
 
 export default function AdminLogin() {
+
+    const [erromess, setErrorMess] = useState("")
+
     const AdminLoginSchema = yup.object().shape({
-        email: yup.string().email()
-            .required('Required'),
         username: yup.string()
             .max(15, "Must be 15 characters or less")
             .required('Required'),
@@ -36,13 +38,21 @@ export default function AdminLogin() {
                     validationSchema={AdminLoginSchema}
                     onSubmit={async (values) => {
                         try {
-                            const res = await API.post('', values);
+                            const res = await API.post(constants.adminlogin, {
+                                email: values.username,
+                                password: values.password
+                            });
                             // Need to set the session token here
                             if (res.status === 200) {
                                 setAuth("adminToken", res.data.token);
                                 alert("Login Successfull")
                                 return <Redirect to="/admin"/>
-                            } else {
+                            }
+                            else if (res.status === 404 ) {
+                                const Errmessage = "User and password is not correct";
+                                setErrorMess(Errmessage);
+                            } else 
+                            {
                                 console.log("Failed the registration")
                             }
                         }
@@ -52,7 +62,6 @@ export default function AdminLogin() {
                     }
                     }
                     initialValues={{
-                        mail: '',
                         username: '',
                         password: '',
                     }}
@@ -68,7 +77,7 @@ export default function AdminLogin() {
                     }) => (
                         <Form noValidate onSubmit={handleSubmit}>
                             <Form.Group controlId="validate2">
-                                <Form.Label>Username</Form.Label>
+                                <Form.Label>Email</Form.Label>
                                 <Form.Control type="text" name="username"
                                     value={values.username}
                                     onChange={handleChange}
@@ -90,12 +99,13 @@ export default function AdminLogin() {
                                 <Form.Control.Feedback type="invalid">
                                     {errors.password}
                                 </Form.Control.Feedback>
+                                {erromess}
                             </Form.Group>
                             <ButtonGroup>
                             <Button type="submit">Submit</Button>
                             </ButtonGroup>
                             <ButtonGroup>
-                            <Button href="/register">Register</Button>
+                            <Button href="/adminregister">Register</Button>
                             </ButtonGroup>
                         </Form>
                     )}

@@ -9,7 +9,7 @@ import UserManagement from "./usermanagement";
 import QaPage from "./qa";
 
 export default function AdminPage() {
-    if (!getAuth("admin"))
+    if (!getAuth("adminToken"))
         return <Redirect to="/adminlogin" />
     return (
         <Container>
