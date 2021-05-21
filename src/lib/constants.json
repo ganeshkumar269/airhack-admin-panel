@@ -1,0 +1,4 @@
+{
+    "baseserver": "https://airbus-hackathon-backend.ganeshkumar269.repl.co/",
+    "adminregister": "/api/v1/admin/register"
+}
