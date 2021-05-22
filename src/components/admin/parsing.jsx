@@ -30,12 +30,13 @@ export default function Parsing() {
         console.log("Sending Keyword Data")
         console.log({keywords,returnUrls})
         returnUrls.map((el,index)=>{
+            if(!keywords[index]) return
             dataobj[keywords[index]] = el
             // dataToSend.push({url:el,keywords:keywords[index]})
         })
         console.log("dataobj",dataobj)
 
-        const response = await fetch("http://localhost:4000/api/v1/admin/keywords",{
+        const response = await fetch("https://airbus-hackathon-backend.ganeshkumar269.repl.co/api/v1/admin/keywords",{
             "method":"POST",
             "headers":{
                 "Content-Type":"application/json",
@@ -107,10 +108,12 @@ export default function Parsing() {
             }
         </Formik>
         <div>
+            <br />
+            <Button onClick={sendKeywords}>Send Keywords</Button>
             <div>
                 {returnUrls?.map((item,index) => {
                 //   return <UrlKeywordRow url={item} keywords={keywords[index]}/>;
-                    if(index > 15) return
+                    if(index > 15) return(<></>)
                     return (
                         <>
                         <li>{item}</li>
