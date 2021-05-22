@@ -56,12 +56,14 @@ export default function Parsing() {
 
     return (
         <>
+        <h1>Index site for easy search!</h1>
         <Formik
             onSubmit={async (values) => {
                 try {
+                    console.log(values)
                     const token = getAuthToken('admin');
                     const crawlUrl = new URL(getUrlsApi)
-                    crawlUrl.searchParams.append("url","http://www.google.com")
+                    crawlUrl.searchParams.append("url",values.callurl)
                     crawlUrl.searchParams.append("sameDomain","true")
                     const res = await fetch(crawlUrl.toString())
                     const resData = await res.json()
@@ -99,7 +101,7 @@ export default function Parsing() {
                                 value={values.callurl} onChange={handleChange}
                             />
                         </Form.Group>
-                        <Button type="submit">Generate Domain links</Button>
+                        <Button type="submit">Get links</Button>
                     </Form>
                 )
             }
@@ -120,7 +122,7 @@ export default function Parsing() {
             </div>
             <br/>
             <div>
-                <button onClick={sendKeywords}>Send</button>
+                {/* <button onClick={sendKeywords}>Send</button> */}
             </div> 
         </div>
         {/* {returnUrls ? returnUrls: "Empty Array"} */}

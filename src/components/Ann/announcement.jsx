@@ -47,7 +47,7 @@ export default function Announcement() {
 
     return (
         <>
-        <h1> Announcement </h1>
+        <h1> Make an Announcement! </h1>
             <Formik
                 initialValues={{
                     question: "",

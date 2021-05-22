@@ -46,7 +46,7 @@ export default function QaPage() {
 
     return (
         <>
-        <h1> Question and Answer </h1>
+        <h1> Add QnA's for your users! </h1>
             <Formik
                 initialValues={{
                     question: "",
@@ -70,6 +70,7 @@ export default function QaPage() {
                             })
 
                         if (res.status === 200) {
+                            alert("Successfully Posted Question and Answer")
                             var newTopic = topics;
                             newTopic.push({
                                 question: values.question,
