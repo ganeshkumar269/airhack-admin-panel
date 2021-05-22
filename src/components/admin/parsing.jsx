@@ -110,6 +110,7 @@ export default function Parsing() {
             <div>
                 {returnUrls?.map((item,index) => {
                 //   return <UrlKeywordRow url={item} keywords={keywords[index]}/>;
+                    if(index > 15) return
                     return (
                         <>
                         <li>{item}</li>

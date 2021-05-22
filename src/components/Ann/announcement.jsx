@@ -71,6 +71,7 @@ export default function Announcement() {
                             })
 
                         if (res.status === 200) {
+                            alert("Announcement successfully added")
                             var newTopic = announcements;
                             newTopic.push({id:websiteId,announcement: values.answer});
                             console.log(newTopic)
