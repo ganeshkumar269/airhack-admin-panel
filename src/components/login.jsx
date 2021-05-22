@@ -5,7 +5,7 @@ import React from 'react'
 import axios from 'axios'
 import { useState } from 'react'
 
-const posturl = "http://127.0.0.1:9000";
+const posturl = "https://airbus-hackathon-backend.ganeshkumar269.repl.co/api/v1/admin/login";
 
 
 function ModalForm(props) {
@@ -29,9 +29,12 @@ function ModalForm(props) {
         validationSchema: loginSchema,
         onSubmit: async values => {
             try {
+                // console.log("running")
                 const res = await axios.post(posturl, JSON.stringify(values))
-                if (res.status === 200)
+                if (res.status === 200){
                     console.log("logged in")
+                    console.log(res)
+                }
                 else {
                     alert("Wrong authentication")
                 }

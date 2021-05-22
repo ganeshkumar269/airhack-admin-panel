@@ -1,7 +1,7 @@
 import * as yup from 'yup'
 import { Formik } from 'formik';
 import { Form, Button, Modal, ButtonGroup } from 'react-bootstrap';
-import { setAuth } from './Auth';
+import { setAuth, setWebsiteId } from './Auth';
 import { Redirect } from 'react-router-dom';
 import API from '../../lib/apis'
 import constants from '../../lib/constants.json'
@@ -13,7 +13,7 @@ import { useState } from 'react';
 // const adminLoginApi = "127.0.0.1/api/v1/adminlogin";
 
 // const history = useHistory();
-
+// test1@test.com
 
 export default function AdminLogin() {
 
@@ -24,7 +24,7 @@ export default function AdminLogin() {
             .max(15, "Must be 15 characters or less")
             .required('Required'),
         password: yup.string()
-            .min(8, 'Must be 8 charahcters or more')
+            .min(4, 'Must be 8 charahcters or more')
             .required('Required')
     });
 
@@ -44,7 +44,10 @@ export default function AdminLogin() {
                             });
                             // Need to set the session token here
                             if (res.status === 200) {
+                                console.log(res)
                                 setAuth("adminToken", res.data.token);
+                                console.log(res.data.website_id)
+                                setWebsiteId("websiteId", res.data.website_id);
                                 alert("Login Successfull")
                                 return <Redirect to="/admin"/>
                             }

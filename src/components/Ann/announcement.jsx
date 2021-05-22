@@ -1,43 +1,44 @@
 import axios from "axios";
 import { Formik } from "formik";
-import { getAuthToken, getWebsiteId } from "./Auth";
+import { getAuthToken, getWebsiteId } from "../admin/Auth";
 import { Form, Button, Card, Accordion } from 'react-bootstrap';
 import { useEffect, useState } from "react";
 import API from '../../lib/apis'
 import constants from '../../lib/constants.json'
 
-const questionUrl = 'https://airbus-hackathon-backend.ganeshkumar269.repl.co/api/v1/admin/addqna'
+const questionUrl = 'https://airbus-hackathon-backend.ganeshkumar269.repl.co/api/v1/admin/announcement'
+const getUrl = 'https://airbus-hackathon-backend.ganeshkumar269.repl.co/api/v1/admin/announcement?website_id='
 
-
-export default function QaPage() {
+// test1@test.com
+export default function Announcement() {
     // This page is to give the form to create QA and display the last few QA 
 
-    const [topics, setTopics] = useState([])
+    const [announcements, setAnnouncements] = useState([])
 
-    // useEffect(
-    //     () => {
-    //         async function FetchQA() {
-    //             const token = getAuthToken();
-    //             const res = await axios.get(questionUrl, {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`
-    //                 }
-    //             })
-    //             if (res.status === 200)
-    //                 setTopics(res.data)
-    //         }
-    //         FetchQA().catch((error) => {
-    //             console.log("There is an error in getting QA data", error)
-    //         });
-    //     }, []);
+    useEffect(
+        () => {
+            async function FetchQA() {
+                const token = getAuthToken("adminToken");
+                console.log(token)
+                const res = await axios.get(getUrl+getWebsiteId("websiteId"), {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                console.log(res)
+                if (res.status === 200)
+                    setAnnouncements(res.data)
+            }
+            FetchQA()
+        }, []);
 
-    const topicElem = topics.map((singletopic, index) =>
+    const topicElem = announcements.map((singletopic, index) =>
         <Card key={index}>
             <Accordion.Toggle as={Card.Header} eventKey={index}>
-                {singletopic.Question}
+                {singletopic.announcement}
             </Accordion.Toggle>
             <Accordion.Collapse eventKey={index}>
-                <Card.Body>{singletopic.Answer}</Card.Body>
+                <Card.Body>{singletopic.announcement}</Card.Body>
             </Accordion.Collapse>
         </Card>
     )
@@ -46,7 +47,7 @@ export default function QaPage() {
 
     return (
         <>
-        <h1> Question and Answer </h1>
+        <h1> Announcement </h1>
             <Formik
                 initialValues={{
                     question: "",
@@ -55,13 +56,13 @@ export default function QaPage() {
                 onSubmit={async (values) => {
                     try {
                         const token = getAuthToken("adminToken");
-                        const websiteId = getWebsiteId("websiteId");
-
-                        console.log(token, websiteId, values.question, values.answer)
+                        const websiteId = getWebsiteId("websiteId")
+                        console.log(token)
+                        console.log(websiteId)
+                        console.log(values.answer)
                         const res = await axios.post(questionUrl, {
-                            question: values.question,
-                            answer: values.answer,
-                            website_id:websiteId
+                            website_id: websiteId,
+                            announcement: values.answer
                         },
                             {
                                 headers: {
@@ -70,12 +71,10 @@ export default function QaPage() {
                             })
 
                         if (res.status === 200) {
-                            var newTopic = topics;
-                            newTopic.push({
-                                question: values.question,
-                                answer: values.answer
-                            });
-                            setTopics(newTopic);
+                            var newTopic = announcements;
+                            newTopic.push({id:websiteId,announcement: values.answer});
+                            console.log(newTopic)
+                            setAnnouncements(newTopic);
                         }
 
                     } catch (error) {
@@ -91,18 +90,18 @@ export default function QaPage() {
                     }) => (
                         <Form onSubmit={handleSubmit}>
                             <Form.Group controlId="validate1">
-                                <Form.Label>Question</Form.Label>
+                                {/* <Form.Label>Title</Form.Label>
                                 <Form.Control type="text" name="question" onChange={handleChange}
                                     value={values.question} 
-                                />
+                                /> */}
                             </Form.Group>
                             <Form.Group controlId="validate2">
-                                <Form.Label>Answer</Form.Label>
+                                <Form.Label>Announcement</Form.Label>
                                 <Form.Control type="text" name="answer" onChange={handleChange}
                                     value={values.answer} 
                                 />
                             </Form.Group>
-                            <Button type="submit">Post Question</Button>
+                            <Button type="submit">Add announcement</Button>
                             <Button type="clear" onClick={resetForm}>Clear</Button>
                         </Form>
                     )

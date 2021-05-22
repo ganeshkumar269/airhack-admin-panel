@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Form, Button } from 'react-bootstrap';
 import { Modal } from 'react-bootstrap';
 
-
+// 127.0.0.1:9000
 const registerurl = "127.0.0.1:9000"
 
 function RegisterForm() {
@@ -30,6 +30,7 @@ function RegisterForm() {
                     validationSchema={regsiterSchema}
                     onSubmit={async (values) => {
                         try {
+                            console.log("hi")
                             const res = await axios.post(registerurl, values);
                             if (res.status === 200) {
                                 alert("User creation successfull")
