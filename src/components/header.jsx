@@ -15,11 +15,11 @@ export default function Header() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Nav.Link href="/">Home</Nav.Link>
                 <Nav.Link href="/admin">Admin</Nav.Link>
-                <Nav.Link href="#Home">QA</Nav.Link>
-                <Nav.Link href="#improvements">Improvements</Nav.Link>
+                {/* <Nav.Link href="#Home">QA</Nav.Link> */}
+                {/* <Nav.Link href="#improvements">Improvements</Nav.Link> */}
                 <Nav.Link href="/announcements">Announcements</Nav.Link>
-                <Nav.Item><Loginform /></Nav.Item>
-                <Nav.Link href="/register">Register</Nav.Link>
+                {/* <Nav.Item><Loginform /></Nav.Item> */}
+                {/* <Nav.Link href="/register">Register</Nav.Link> */}
             </Navbar>
 
             <Switch>
