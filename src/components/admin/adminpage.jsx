@@ -7,6 +7,7 @@ import Parsing from "./parsing";
 import { Container, Col, Row } from "react-bootstrap";
 import UserManagement from "./usermanagement";
 import QaPage from "./qa";
+import Analytics from './analytics'
 
 export default function AdminPage() {
     if (!getAuth("adminToken"))
@@ -19,17 +20,14 @@ export default function AdminPage() {
                         <Parsing />
                     </Row>
                     <Row>
-                        <UserManagement />
+                        {/* <UserManagement /> */}
                     </Row>
                 </Col>
                 <Col>
-                    <QaPage />
+                        <QaPage />
+                        <Analytics/>
                 </Col>
             </Row>
         </Container>
     );
 }
-
-
-
-
